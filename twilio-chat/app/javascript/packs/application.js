@@ -3,18 +3,20 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
-const Rails = require("@rails/ujs")
+import { ajax } from "@rails/ujs"
 
 require("@rails/ujs").start()
 require("turbolinks").start()
 require("@rails/activestorage").start()
-require("channels")
+require("channels").start()
+require_tree .
 
 document.addEventListener("DOMContentLoaded", () => {
   if (document.querySelector("chat")) {
     window.chat = new Chat();
   }
 });
+
 
 
 // Uncomment to copy all static images under ../images to the output folder and reference
@@ -24,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
-Rails.ajax({
+ajax({
   url: "/tokens",
   type: "POST",
     success: function(data) { //code to create a new chat client with the token we've generated, and then check if the "general" channel exists.
