@@ -42,6 +42,8 @@ class Chat {
     this.channel = channel;
     this.joinChannel();
     this.addMessage({ body: `Joined general channel as ${this.identity}` });
+    this.channel.on("messageAdded", message => this.addMessage(message));
+    this.setupForm();
   }
   
   setupClient(client) {
@@ -76,5 +78,15 @@ class Chat {
     this.renderMessages();
   }
   //accepting a message object that has an author key and a body key. If the object does not include an author, then we just add the body of the message to the messages array. when an author is provided, we determine the appropriate CSS class for the author span tag by checking if the author matches the identity from the initialize method. If they are a match, we add a me class in addiyion to the user class on the message
+  setupForm() {
+    const form = document.querySelector(".chat form");
+    const input = document.querySelector(".chat form input");
 
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+      this.channel.sendMessage(input.value);
+      input.value = "";
+      return false;
+    });
+  }
 };
