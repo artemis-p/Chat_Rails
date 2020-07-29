@@ -21,7 +21,28 @@ require("channels")
 Rails.ajax({
   url: "/tokens",
   type: "POST",
-    success: function(data) {
-      console.log(data);
+    success: function(data) { //code to create a new chat client with the token we've generated, and then check if the "general" channel exists.
+      Twilio.Chat.Client 
+        .create(data.token)
+        .then(function(chatClient) {
+          chatClient.getChannelByUniqueName("general")
+            .then(function(channel){
+              //general channel exists
+            })
+            .catch(function(){
+              //general channel does not exist
+              //we'll create the channel and join it, then log that we've joined the channel to ensure that it's working.
+              chatClient.createChannel({
+                uniqueName: "general",
+                friendlyName: "General Chat Channel"
+              }).then(function(channel) {
+                if (channel.state.status !== "joined") {
+                  channel.join().then(function(channel) {
+                    console.log("Joined General Channel");
+                  })
+                }
+              })
+            })
+        });
     } 
 });
