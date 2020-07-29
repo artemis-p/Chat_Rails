@@ -8,11 +8,11 @@ import { ajax } from "@rails/ujs"
 require("@rails/ujs").start()
 require("turbolinks").start()
 require("@rails/activestorage").start()
-require("channels").start()
-require_tree .
+require("channels")
+//require_tree .
 
 document.addEventListener("DOMContentLoaded", () => {
-  if (document.querySelector("chat")) {
+  if (document.querySelector(".chat")) {
     window.chat = new Chat();
   }
 });
@@ -42,15 +42,15 @@ ajax({
               //we'll create the channel and join it, then log that we've joined the channel to ensure that it's working.
               chatClient.createChannel({
                 uniqueName: "general",
-                friendlyNtame: "General Chat Channel"
+                friendlyName: "General Chat Channel"
               }).then(function(channel) {
                 if (channel.state.status !== "joined") {
                   channel.join().then(function(channel) {
                     console.log("Joined General Channel");
                   })
                 }
-              })
-            })
+              });
+            });
         });
     } 
 });

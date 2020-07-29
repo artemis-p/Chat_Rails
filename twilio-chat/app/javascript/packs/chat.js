@@ -5,7 +5,7 @@ class Chat {
     this.channel = null;
     this.client = null;
     this.identity = null;
-    this.messages = ["connecting..."];
+    this.messages = ["Connecting..."];
     this.initialize();
   }
   //initializing variables with null value. We call an initialize method, which has the logic for fetching our token.
@@ -53,14 +53,14 @@ class Chat {
       .catch((error) => {
         this.client.createChannel({
           uniqueName: "general",
-          friendlyname: "General Chat Channel"
+          friendlyName: "General Chat Channel"
         }).then((channel) => this.setupChannel(channel));
       });
   }
 
   renderMessages() {
-    let messagesContainer = document.querySelector(".chat .messages");
-    messagesContainer.innerHTML = this.messages
+    let messageContainer = document.querySelector(".chat .messages");
+    messageContainer.innerHTML = this.messages
       .map(message => `<div class="message>${message}</div>`)
       .join("");
   }
@@ -70,7 +70,7 @@ class Chat {
 
     if (message.author) {
       const className = message.author == this.identity ? "user me" : "user";
-      html += `<span class="${classname}">${message.author}: </span>`;
+      html += `<span class="${className}">${message.author}: </span>`;
     }
 
     html += message.body;
