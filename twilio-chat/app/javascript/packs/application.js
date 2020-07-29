@@ -10,6 +10,12 @@ require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
 
+document.addEventListener("DOMContentLoaded", () => {
+  if (document.querySelector("chat")) {
+    window.chat = new Chat();
+  }
+});
+
 
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
@@ -34,7 +40,7 @@ Rails.ajax({
               //we'll create the channel and join it, then log that we've joined the channel to ensure that it's working.
               chatClient.createChannel({
                 uniqueName: "general",
-                friendlyName: "General Chat Channel"
+                friendlyNtame: "General Chat Channel"
               }).then(function(channel) {
                 if (channel.state.status !== "joined") {
                   channel.join().then(function(channel) {
